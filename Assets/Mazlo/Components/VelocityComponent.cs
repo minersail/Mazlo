@@ -6,6 +6,9 @@ namespace Mazlo.Components
 {
     public class VelocityComponent : MonoBehaviour
     {
-        public float velocity;
+        public float maxSpeed;
+
+        [HideInInspector] public float velocityX;
+        [HideInInspector] public float velocityY;
     }
 }

@@ -11,14 +11,14 @@ namespace Mazlo.Systems
         private struct HeadingEntity
         {
             public Transform trans;
-            public InputComponent input;
+            public HeadingComponent heading;
         }
 
         protected override void OnUpdate()
         {
             foreach (HeadingEntity entity in GetEntities<HeadingEntity>())
             {
-                entity.trans.Rotate(new Vector3(0, entity.input.lookX, 0) * 60 * Time.deltaTime, Space.World);
+                entity.trans.Rotate(new Vector3(0, entity.heading.lookX, 0) * entity.heading.angularSpeed * Time.deltaTime, Space.World);
             }
         }
     }

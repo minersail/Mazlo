@@ -12,7 +12,8 @@ namespace Mazlo.Systems
     {
         private struct PlayerEntity
         {
-            public InputComponent input;
+            public VelocityComponent movement;
+            public HeadingComponent heading;
             public PlayerComponent player;
         }
 
@@ -20,11 +21,11 @@ namespace Mazlo.Systems
         {
             foreach (PlayerEntity entity in GetEntities<PlayerEntity>())
             {
-                entity.input.moveX = Input.GetAxis("Horizontal");
-                entity.input.moveY = Input.GetAxis("Vertical");
+                entity.movement.velocityX = Input.GetAxis("Horizontal");
+                entity.movement.velocityY = Input.GetAxis("Vertical");
 
-                entity.input.lookX = Input.GetAxis("Mouse X");
-                entity.input.lookY = Input.GetAxis("Mouse Y");
+                entity.heading.lookX = Input.GetAxis("Mouse X");
+                entity.heading.lookY = Input.GetAxis("Mouse Y");
 
                 Cursor.lockState = CursorLockMode.Locked;
             }

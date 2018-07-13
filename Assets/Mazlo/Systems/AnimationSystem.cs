@@ -11,18 +11,15 @@ namespace Mazlo.Systems
         private struct AnimationEntity
         {
             public Animator animator;
-            public InputComponent input;
+            public VelocityComponent movement;
         }
 
         protected override void OnUpdate()
         {
             foreach (AnimationEntity entity in GetEntities<AnimationEntity>())
             {
-                // Disable root motion if motion is controlled manually instead
-                if (entity.input.GetComponent<VelocityComponent>() != null) entity.animator.applyRootMotion = false;
-
-                entity.animator.SetFloat("VelocityX", entity.input.moveX);
-                entity.animator.SetFloat("VelocityZ", entity.input.moveY);
+                entity.animator.SetFloat("VelocityX", entity.movement.velocityX);
+                entity.animator.SetFloat("VelocityZ", entity.movement.velocityY);
             }
         }
     }

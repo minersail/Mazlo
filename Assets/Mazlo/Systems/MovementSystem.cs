@@ -12,14 +12,16 @@ namespace Mazlo.Systems
         {
             public Transform trans;
             public VelocityComponent vc;
-            public InputComponent input;
         }
 
         protected override void OnUpdate()
         {
             foreach (MovementEntity entity in GetEntities<MovementEntity>())
             {
-                entity.trans.Translate(new Vector3(entity.input.moveX, 0, entity.input.moveY) * entity.vc.velocity * Time.deltaTime, Space.World);
+                // Don't use movement if root motion is enabled
+                if (entity.trans.GetComponent<Animator>().applyRootMotion) { continue; }
+
+                entity.trans.Translate(entity.trans.rotation * new Vector3(entity.vc.velocityX, 0, entity.vc.velocityY) * entity.vc.maxSpeed * Time.deltaTime, Space.World);
             }
         }
     }

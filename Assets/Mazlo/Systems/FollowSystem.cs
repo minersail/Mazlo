@@ -12,7 +12,7 @@ namespace Mazlo.Systems
         {
             public Transform trans;
             public FollowComponent fc;
-            public InputComponent input;
+            public VelocityComponent input;
         }
 
         protected override void OnUpdate()
@@ -23,8 +23,8 @@ namespace Mazlo.Systems
 
                 direction.Normalize();
 
-                entity.input.moveX = direction.x;
-                entity.input.moveY = direction.z;
+                entity.input.velocityX = direction.x;
+                entity.input.velocityY = direction.z;
             }
         }
     }
