@@ -8,6 +8,7 @@ namespace Mazlo.Systems
 {
     [UpdateBefore(typeof(MovementSystem))]
     [UpdateBefore(typeof(HeadingSystem))]
+    [UpdateBefore(typeof(AttackSystem))]
     public class PlayerInputSystem : ComponentSystem
     {
         private struct PlayerEntity
@@ -15,6 +16,7 @@ namespace Mazlo.Systems
             public VelocityComponent movement;
             public HeadingComponent heading;
             public PlayerComponent player;
+            public AttackComponent attack;
         }
 
         protected override void OnUpdate()
@@ -26,6 +28,8 @@ namespace Mazlo.Systems
 
                 entity.heading.lookX = Input.GetAxis("Mouse X");
                 entity.heading.lookY = Input.GetAxis("Mouse Y");
+
+                entity.attack.attackTriggered = Input.GetKeyDown(KeyCode.Space);
 
                 Cursor.lockState = CursorLockMode.Locked;
             }
