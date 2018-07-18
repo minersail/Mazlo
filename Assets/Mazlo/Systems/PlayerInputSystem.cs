@@ -13,25 +13,31 @@ namespace Mazlo.Systems
     {
         private struct PlayerEntity
         {
-            public VelocityComponent movement;
-            public HeadingComponent heading;
             public PlayerComponent player;
-            public AttackComponent attack;
+            public Transform trans;
         }
 
         protected override void OnUpdate()
         {
             foreach (PlayerEntity entity in GetEntities<PlayerEntity>())
             {
-                entity.movement.velocityX = Input.GetAxis("Horizontal");
-                entity.movement.velocityY = Input.GetAxis("Vertical");
+                if (entity.trans.GetComponent<VelocityComponent>() != null)
+                {
+                    entity.trans.GetComponent<VelocityComponent>().velocityX = Input.GetAxis("Horizontal");
+                    entity.trans.GetComponent<VelocityComponent>().velocityY = Input.GetAxis("Vertical");
+                }
 
-                entity.heading.lookX = Input.GetAxis("Mouse X");
-                entity.heading.lookY = Input.GetAxis("Mouse Y");
+                if (entity.trans.GetComponent<HeadingComponent>() != null)
+                {
+                    entity.trans.GetComponent<HeadingComponent>().lookX = Input.GetAxis("Mouse X");
+                    entity.trans.GetComponent<HeadingComponent>().lookY = Input.GetAxis("Mouse Y");
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
 
-                entity.attack.attackTriggered = Input.GetKeyDown(KeyCode.Space);
-
-                Cursor.lockState = CursorLockMode.Locked;
+                if (entity.trans.GetComponent<AttackComponent>() != null)
+                {
+                    entity.trans.GetComponent<AttackComponent>().attackTriggered = Input.GetKeyDown(KeyCode.Space);
+                }
             }
         }
     }

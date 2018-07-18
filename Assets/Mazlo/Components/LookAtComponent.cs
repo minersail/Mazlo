@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace Mazlo.Components
 {
-    public class FollowComponent : MonoBehaviour
+    public class LookAtComponent : MonoBehaviour
     {
-        public Transform followTrans;
-        public float stopDistance;
+        public Transform lookTrans;
     }
 }

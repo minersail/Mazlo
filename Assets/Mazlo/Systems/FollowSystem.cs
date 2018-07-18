@@ -19,12 +19,20 @@ namespace Mazlo.Systems
         {
             foreach (FollowerEntity entity in GetEntities<FollowerEntity>())
             {
-                Vector3 direction = (entity.fc.followTrans.position + entity.fc.offset) - entity.trans.position;
+                Vector3 direction = entity.fc.followTrans.position - entity.trans.position;
 
-                direction.Normalize();
+                if (direction.magnitude < entity.fc.stopDistance)
+                {
+                    entity.input.velocityX = Mathf.Lerp(entity.input.velocityX, 0, Time.deltaTime * 3);
+                    entity.input.velocityY = Mathf.Lerp(entity.input.velocityY, 0, Time.deltaTime * 3);
+                }
+                else
+                {
+                    direction.Normalize();
 
-                entity.input.velocityX = direction.x;
-                entity.input.velocityY = direction.z;
+                    entity.input.velocityX = Mathf.Lerp(entity.input.velocityX, direction.x, Time.deltaTime * 3);
+                    entity.input.velocityY = Mathf.Lerp(entity.input.velocityY, direction.z, Time.deltaTime * 3);
+                }
             }
         }
     }
