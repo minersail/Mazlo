@@ -19,7 +19,7 @@ namespace Mazlo.Systems
         {
             foreach (FollowerEntity entity in GetEntities<FollowerEntity>())
             {
-                Vector3 direction = entity.fc.followTrans.position - entity.trans.position;
+                Vector3 direction = entity.trans.InverseTransformDirection(entity.fc.followTrans.position - entity.trans.position);
 
                 if (direction.magnitude < entity.fc.stopDistance)
                 {
