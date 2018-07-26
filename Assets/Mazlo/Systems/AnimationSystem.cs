@@ -11,7 +11,6 @@ namespace Mazlo.Systems
         private struct AnimationData
         {
             public ComponentArray<Animator> Animators;
-            public ComponentArray<VelocityComponent> VelocityComponents;
             public EntityArray Entities;
             public int Length;
         }
@@ -25,10 +24,14 @@ namespace Mazlo.Systems
             {
                 Entity curr = AnimationEntities.Entities[i];
                 Animator anim = AnimationEntities.Animators[i];
-                VelocityComponent vc = AnimationEntities.VelocityComponents[i];
 
-                anim.SetFloat("VelocityX", vc.velocityX);
-                anim.SetFloat("VelocityZ", vc.velocityY);
+                if (EntityManager.HasComponent<VelocityComponent>(curr))
+                {
+                    VelocityComponent vc = EntityManager.GetComponentObject<VelocityComponent>(curr);
+
+                    anim.SetFloat("VelocityX", vc.velocityX);
+                    anim.SetFloat("VelocityZ", vc.velocityY);
+                }
 
                 if (EntityManager.HasComponent<AttackComponent>(curr))
                 {

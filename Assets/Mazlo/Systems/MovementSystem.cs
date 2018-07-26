@@ -34,7 +34,18 @@ namespace Mazlo.Systems
                 Transform trans = MovementEntities.Transforms[i];
                 VelocityComponent vc = MovementEntities.VelocityComponents[i];
 
-                trans.Translate(trans.rotation * new Vector3(vc.velocityX, 0, vc.velocityY) * vc.maxSpeed * Time.deltaTime, Space.World);
+                Vector3 movement = new Vector3(vc.velocityX, 0, vc.velocityY);
+                if (movement.magnitude > 1)
+                    movement.Normalize();
+
+                trans.Translate(trans.rotation * movement * vc.maxSpeed * Time.deltaTime, Space.World);
+
+                if (EntityManager.HasComponent<EnergyComponent>(curr))
+                {
+                    float distTravelled = movement.magnitude * vc.maxSpeed * Time.deltaTime;
+                    EntityManager.GetComponentObject<EnergyComponent>(curr).energy -= distTravelled;
+                    EntityManager.GetComponentObject<EnergyComponent>(curr).regenEnabled = distTravelled == 0;
+                }
             }
         }
     }
