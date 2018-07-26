@@ -9,18 +9,26 @@ namespace Mazlo.Systems
     [UpdateBefore(typeof(AttackSystem))]
     public class AttackTargetSystem : ComponentSystem
     {
-        private struct AttackTargetEntity
+        private struct AttackTargetData
         {
-            public Transform trans;
-            public AttackTargetComponent attackTarget;
-            public AttackComponent attackComponent;
+            public ComponentArray<Transform> Transforms;
+            public ComponentArray<AttackTargetComponent> AttackTargets;
+            public ComponentArray<AttackComponent> AttackComponents;
+            public int Length;
         }
+
+        [Inject]
+        private AttackTargetData AttackTargetEntities;
 
         protected override void OnUpdate()
         {
-            foreach (AttackTargetEntity entity in GetEntities<AttackTargetEntity>())
+            for (int i = 0; i < AttackTargetEntities.Length; i++)
             {
-                entity.attackComponent.attackTriggered = Vector3.Distance(entity.trans.position, entity.attackTarget.targetTrans.position) < entity.attackTarget.attackDistance;             
+                Transform trans = AttackTargetEntities.Transforms[i];
+                AttackTargetComponent attackTarget = AttackTargetEntities.AttackTargets[i];
+                AttackComponent attackComponent = AttackTargetEntities.AttackComponents[i];
+
+                attackComponent.attackTriggered = Vector3.Distance(trans.position, attackTarget.targetTrans.position) < attackTarget.attackDistance;
             }
         }
     }

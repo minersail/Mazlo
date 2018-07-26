@@ -8,20 +8,33 @@ namespace Mazlo.Systems
 {
     public class MovementSystem : ComponentSystem
     {
-        private struct MovementEntity
+        private struct MovementData
         {
-            public Transform trans;
-            public VelocityComponent vc;
+            public ComponentArray<Transform> Transforms;
+            public ComponentArray<VelocityComponent> VelocityComponents;
+            public EntityArray Entities;
+            public int Length;
         }
+
+        [Inject]
+        private MovementData MovementEntities;
 
         protected override void OnUpdate()
         {
-            foreach (MovementEntity entity in GetEntities<MovementEntity>())
+            for (int i = 0; i < MovementEntities.Length; i++)
             {
-                // Don't use movement if root motion is enabled
-                if (entity.trans.GetComponent<Animator>().applyRootMotion) { continue; }
+                Entity curr = MovementEntities.Entities[i];
 
-                entity.trans.Translate(entity.trans.rotation * new Vector3(entity.vc.velocityX, 0, entity.vc.velocityY) * entity.vc.maxSpeed * Time.deltaTime, Space.World);
+                // Don't use movement if root motion is enabled
+                if (EntityManager.HasComponent<Animator>(curr) && EntityManager.GetComponentObject<Animator>(curr).applyRootMotion)
+                {
+                    continue;
+                }
+
+                Transform trans = MovementEntities.Transforms[i];
+                VelocityComponent vc = MovementEntities.VelocityComponents[i];
+
+                trans.Translate(trans.rotation * new Vector3(vc.velocityX, 0, vc.velocityY) * vc.maxSpeed * Time.deltaTime, Space.World);
             }
         }
     }

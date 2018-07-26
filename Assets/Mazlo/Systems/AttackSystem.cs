@@ -8,20 +8,21 @@ namespace Mazlo.Systems
 {
     public class AttackSystem : ComponentSystem
     {
-        private struct AttackEntity
+        private struct AttackData
         {
-            public AttackComponent attack;
-            public Animator anim;
+            public ComponentArray<AttackComponent> AttackComponents;
+            public EntityArray Entities;
+            public int Length;
         }
+
+        [Inject]
+        private AttackData AttackEntities;
 
         protected override void OnUpdate()
         {
-            foreach (AttackEntity entity in GetEntities<AttackEntity>())
+            for (int i = 0; i < AttackEntities.Length; i++)
             {
-                if (entity.attack.attackTriggered)
-                {
-                    entity.anim.SetTrigger("Attack");
-                }
+                Debug.Log("Attacking");
             }
         }
     }

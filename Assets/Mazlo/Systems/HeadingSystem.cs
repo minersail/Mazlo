@@ -8,17 +8,24 @@ namespace Mazlo.Systems
 {
     public class HeadingSystem : ComponentSystem
     {
-        private struct HeadingEntity
+        private struct HeadingData
         {
-            public Transform trans;
-            public HeadingComponent heading;
+            public ComponentArray<Transform> Transforms;
+            public ComponentArray<HeadingComponent> HeadingComponents;
+            public int Length;
         }
+
+        [Inject]
+        private HeadingData HeadingEntities;
 
         protected override void OnUpdate()
         {
-            foreach (HeadingEntity entity in GetEntities<HeadingEntity>())
+            for (int i = 0; i < HeadingEntities.Length; i++)
             {
-                entity.trans.Rotate(new Vector3(0, entity.heading.lookX, 0) * entity.heading.angularSpeed * Time.deltaTime, Space.World);
+                Transform trans = HeadingEntities.Transforms[i];
+                HeadingComponent heading = HeadingEntities.HeadingComponents[i];
+
+                trans.Rotate(new Vector3(0, heading.lookX, 0) * heading.angularSpeed * Time.deltaTime, Space.World);
             }
         }
     }

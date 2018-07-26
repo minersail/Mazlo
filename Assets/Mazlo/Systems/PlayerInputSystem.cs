@@ -11,32 +11,37 @@ namespace Mazlo.Systems
     [UpdateBefore(typeof(AttackSystem))]
     public class PlayerInputSystem : ComponentSystem
     {
-        private struct PlayerEntity
+        private struct PlayerData
         {
-            public PlayerComponent player;
-            public Transform trans;
+            public ComponentArray<PlayerComponent> Player;
+            public EntityArray Entities;
+            public int Length;
         }
+
+        [Inject]
+        private PlayerData PlayerEntities;
 
         protected override void OnUpdate()
         {
-            foreach (PlayerEntity entity in GetEntities<PlayerEntity>())
+            for (int i = 0; i < PlayerEntities.Length; i++)
             {
-                if (entity.trans.GetComponent<VelocityComponent>() != null)
+                Entity curr = PlayerEntities.Entities[i];
+
+                if (EntityManager.HasComponent<VelocityComponent>(curr))
                 {
-                    entity.trans.GetComponent<VelocityComponent>().velocityX = Input.GetAxis("Horizontal");
-                    entity.trans.GetComponent<VelocityComponent>().velocityY = Input.GetAxis("Vertical");
+                    EntityManager.GetComponentObject<VelocityComponent>(curr).velocityX = Input.GetAxis("Horizontal");
+                    EntityManager.GetComponentObject<VelocityComponent>(curr).velocityY = Input.GetAxis("Vertical");
                 }
 
-                if (entity.trans.GetComponent<HeadingComponent>() != null)
+                if (EntityManager.HasComponent<HeadingComponent>(curr))
                 {
-                    entity.trans.GetComponent<HeadingComponent>().lookX = Input.GetAxis("Mouse X");
-                    entity.trans.GetComponent<HeadingComponent>().lookY = Input.GetAxis("Mouse Y");
-                    Cursor.lockState = CursorLockMode.Locked;
+                    EntityManager.GetComponentObject<HeadingComponent>(curr).lookX = Input.GetAxis("Mouse X");
+                    EntityManager.GetComponentObject<HeadingComponent>(curr).lookY = Input.GetAxis("Mouse Y");
                 }
 
-                if (entity.trans.GetComponent<AttackComponent>() != null)
+                if (EntityManager.HasComponent<AttackComponent>(curr))
                 {
-                    entity.trans.GetComponent<AttackComponent>().attackTriggered = Input.GetKeyDown(KeyCode.Space);
+                    EntityManager.GetComponentObject<AttackComponent>(curr).attackTriggered = Input.GetKeyDown(KeyCode.Space);
                 }
             }
         }
