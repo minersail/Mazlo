@@ -6,6 +6,8 @@ using Mazlo.Components;
 
 namespace Mazlo.Systems
 {
+    [UpdateBefore(typeof(AnimationSystem))]
+    [UpdateAfter(typeof(FollowSystem))]
     public class MovementSystem : ComponentSystem
     {
         private struct MovementData
@@ -34,19 +36,38 @@ namespace Mazlo.Systems
                 Transform trans = MovementEntities.Transforms[i];
                 VelocityComponent vc = MovementEntities.VelocityComponents[i];
 
-                Vector3 movement = new Vector3(vc.velocityX, 0, vc.velocityY);
-                if (movement.magnitude > 1)
-                    movement.Normalize();
-
-                trans.Translate(trans.rotation * movement * vc.maxSpeed * Time.deltaTime, Space.World);
+                Vector3 movement = GetMovementVector(vc);
 
                 if (EntityManager.HasComponent<EnergyComponent>(curr))
                 {
-                    float distTravelled = movement.magnitude * vc.maxSpeed * Time.deltaTime;
+                    if (EntityManager.GetComponentObject<EnergyComponent>(curr).energy <= 0)
+                    {
+                        vc.movementMultiplier = Mathf.Lerp(vc.movementMultiplier, 0.5f, Time.deltaTime);
+                    }
+                    else
+                    {
+                        vc.movementMultiplier = Mathf.Lerp(vc.movementMultiplier, 1, Time.deltaTime);
+                    }
+
+                    float distTravelled = movement.magnitude;
                     EntityManager.GetComponentObject<EnergyComponent>(curr).energy -= distTravelled;
                     EntityManager.GetComponentObject<EnergyComponent>(curr).regenEnabled = distTravelled == 0;
                 }
+
+                trans.Translate(trans.rotation * movement * vc.movementMultiplier, Space.World);
             }
+        }
+
+        private Vector3 GetMovementVector(VelocityComponent vc)
+        {
+            // normalize then multiply by higher input
+            float norm = Mathf.Max(Mathf.Abs(vc.inputX), Mathf.Abs(vc.inputY));
+
+            Vector3 movement = new Vector3(vc.inputX, 0, vc.inputY);
+            movement.Normalize();
+            movement *= norm;
+
+            return movement * vc.maxSpeed * Time.deltaTime;
         }
     }
 }

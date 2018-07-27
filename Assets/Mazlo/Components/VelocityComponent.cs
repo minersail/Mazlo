@@ -8,7 +8,14 @@ namespace Mazlo.Components
     {
         public float maxSpeed;
 
-        [HideInInspector] public float velocityX;
-        [HideInInspector] public float velocityY;
+        [HideInInspector] public float inputX;
+        [HideInInspector] public float inputY;
+
+        [HideInInspector] public float movementMultiplier;
+
+        public void Start()
+        {
+            movementMultiplier = 1;
+        }
     }
 }

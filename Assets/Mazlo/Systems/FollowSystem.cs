@@ -45,15 +45,15 @@ namespace Mazlo.Systems
 
                 if (direction.magnitude < fc.stopDistance)
                 {
-                    vc.velocityX = Mathf.Lerp(vc.velocityX, 0, Time.deltaTime * 3);
-                    vc.velocityY = Mathf.Lerp(vc.velocityY, 0, Time.deltaTime * 3);
+                    vc.inputX = Mathf.Lerp(vc.inputX, 0, Time.deltaTime * 3);
+                    vc.inputY = Mathf.Lerp(vc.inputY, 0, Time.deltaTime * 3);
                 }
                 else
                 {
                     direction.Normalize();
 
-                    vc.velocityX = Mathf.Lerp(vc.velocityX, direction.x, Time.deltaTime * 3);
-                    vc.velocityY = Mathf.Lerp(vc.velocityY, direction.z, Time.deltaTime * 3);
+                    vc.inputX = Mathf.Lerp(vc.inputX, direction.x, Time.deltaTime * 3);
+                    vc.inputY = Mathf.Lerp(vc.inputY, direction.z, Time.deltaTime * 3);
                 }
             }
 

@@ -2325,8 +2325,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 5
-  velocityX: 0
-  velocityY: 0
+  inputX: 0
+  inputY: 0
+  movementMultiplier: 0
 --- !u!124 &124034490434789436
 Behaviour:
   m_ObjectHideFlags: 1

@@ -29,8 +29,8 @@ namespace Mazlo.Systems
                 {
                     VelocityComponent vc = EntityManager.GetComponentObject<VelocityComponent>(curr);
 
-                    anim.SetFloat("VelocityX", vc.velocityX);
-                    anim.SetFloat("VelocityZ", vc.velocityY);
+                    anim.SetFloat("VelocityX", vc.inputX * vc.movementMultiplier);
+                    anim.SetFloat("VelocityZ", vc.inputY * vc.movementMultiplier);
                 }
 
                 if (EntityManager.HasComponent<AttackComponent>(curr))
@@ -38,6 +38,10 @@ namespace Mazlo.Systems
                     if (EntityManager.GetComponentObject<AttackComponent>(curr).attackTriggered)
                     {
                         anim.SetTrigger("Attack");
+                    }
+                    else
+                    {
+                        anim.ResetTrigger("Attack");
                     }
                 }
             }

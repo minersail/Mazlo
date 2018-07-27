@@ -29,14 +29,15 @@ namespace Mazlo.Systems
 
                 if (EntityManager.HasComponent<VelocityComponent>(curr))
                 {
-                    EntityManager.GetComponentObject<VelocityComponent>(curr).velocityX = Input.GetAxis("Horizontal");
-                    EntityManager.GetComponentObject<VelocityComponent>(curr).velocityY = Input.GetAxis("Vertical");
+                    EntityManager.GetComponentObject<VelocityComponent>(curr).inputX = Input.GetAxis("Horizontal");
+                    EntityManager.GetComponentObject<VelocityComponent>(curr).inputY = Input.GetAxis("Vertical");
                 }
 
                 if (EntityManager.HasComponent<HeadingComponent>(curr))
                 {
                     EntityManager.GetComponentObject<HeadingComponent>(curr).lookX = Input.GetAxis("Mouse X");
                     EntityManager.GetComponentObject<HeadingComponent>(curr).lookY = Input.GetAxis("Mouse Y");
+                    Cursor.lockState = CursorLockMode.Locked;
                 }
 
                 if (EntityManager.HasComponent<AttackComponent>(curr))
