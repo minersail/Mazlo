@@ -345,6 +345,7 @@ GameObject:
   - component: {fileID: 114902430466927546}
   - component: {fileID: 114138452414356516}
   - component: {fileID: 114394223109198694}
+  - component: {fileID: 114220218681121472}
   m_Layer: 0
   m_Name: PlayerProto
   m_TagString: Untagged
@@ -2262,6 +2263,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackTriggered: 0
+--- !u!114 &114220218681121472
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1222535806623158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276875e5a1a4e2a4693d6727bae2b49b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupTriggered: 0
 --- !u!114 &114382331773491674
 MonoBehaviour:
   m_ObjectHideFlags: 1

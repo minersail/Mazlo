@@ -9,6 +9,7 @@ namespace Mazlo.Systems
     [UpdateBefore(typeof(MovementSystem))]
     [UpdateBefore(typeof(HeadingSystem))]
     [UpdateBefore(typeof(AttackSystem))]
+    [UpdateBefore(typeof(AnimationSystem))]
     public class PlayerInputSystem : ComponentSystem
     {
         private struct PlayerData
@@ -42,7 +43,24 @@ namespace Mazlo.Systems
 
                 if (EntityManager.HasComponent<AttackComponent>(curr))
                 {
-                    EntityManager.GetComponentObject<AttackComponent>(curr).attackTriggered = Input.GetKeyDown(KeyCode.Space);
+                    bool attacking = Input.GetKeyDown(KeyCode.Space);
+
+                    EntityManager.GetComponentObject<AttackComponent>(curr).attackTriggered = attacking;
+                    if (attacking && EntityManager.HasComponent<VelocityComponent>(curr))
+                    {
+                        EntityManager.GetComponentObject<VelocityComponent>(curr).movementLocked = true;
+                    }
+                }
+
+                if (EntityManager.HasComponent<PickupComponent>(curr))
+                {
+                    bool pickedUp = Input.GetKeyDown(KeyCode.E);
+
+                    EntityManager.GetComponentObject<PickupComponent>(curr).pickupTriggered = pickedUp;
+                    if (pickedUp && EntityManager.HasComponent<VelocityComponent>(curr))
+                    {
+                        EntityManager.GetComponentObject<VelocityComponent>(curr).movementLocked = true;                     
+                    }
                 }
             }
         }

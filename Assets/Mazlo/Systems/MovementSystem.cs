@@ -7,6 +7,7 @@ using Mazlo.Components;
 namespace Mazlo.Systems
 {
     [UpdateBefore(typeof(AnimationSystem))]
+    [UpdateBefore(typeof(EnergySystem))]
     [UpdateAfter(typeof(FollowSystem))]
     public class MovementSystem : ComponentSystem
     {
@@ -26,15 +27,23 @@ namespace Mazlo.Systems
             for (int i = 0; i < MovementEntities.Length; i++)
             {
                 Entity curr = MovementEntities.Entities[i];
+                Transform trans = MovementEntities.Transforms[i];
+                VelocityComponent vc = MovementEntities.VelocityComponents[i];
+
+                if (vc.movementLocked)
+                {
+                    if (EntityManager.HasComponent<EnergyComponent>(curr))
+                    {
+                        EntityManager.GetComponentObject<EnergyComponent>(curr).regenEnabled = true;
+                    }
+                    continue;
+                }
 
                 // Don't use movement if root motion is enabled
                 if (EntityManager.HasComponent<Animator>(curr) && EntityManager.GetComponentObject<Animator>(curr).applyRootMotion)
                 {
                     continue;
                 }
-
-                Transform trans = MovementEntities.Transforms[i];
-                VelocityComponent vc = MovementEntities.VelocityComponents[i];
 
                 Vector3 movement = GetMovementVector(vc);
 

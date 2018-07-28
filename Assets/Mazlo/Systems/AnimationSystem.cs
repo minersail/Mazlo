@@ -29,22 +29,39 @@ namespace Mazlo.Systems
                 {
                     VelocityComponent vc = EntityManager.GetComponentObject<VelocityComponent>(curr);
 
-                    anim.SetFloat("VelocityX", vc.inputX * vc.movementMultiplier);
-                    anim.SetFloat("VelocityZ", vc.inputY * vc.movementMultiplier);
+                    if (AnimationEnded(anim, "Pickup") || AnimationEnded(anim, "Attack"))
+                    {
+                        vc.movementLocked = false;
+                    }
+
+                    if (!vc.movementLocked)
+                    {
+                        anim.SetFloat("VelocityX", vc.inputX * vc.movementMultiplier);
+                        anim.SetFloat("VelocityZ", vc.inputY * vc.movementMultiplier);
+                    }
                 }
 
                 if (EntityManager.HasComponent<AttackComponent>(curr))
                 {
                     if (EntityManager.GetComponentObject<AttackComponent>(curr).attackTriggered)
-                    {
                         anim.SetTrigger("Attack");
-                    }
                     else
-                    {
                         anim.ResetTrigger("Attack");
-                    }
+                }
+
+                if (EntityManager.HasComponent<PickupComponent>(curr))
+                {
+                    if (EntityManager.GetComponentObject<PickupComponent>(curr).pickupTriggered)
+                        anim.SetTrigger("Pickup");
+                    else
+                        anim.ResetTrigger("Pickup");
                 }
             }
+        }
+
+        private bool AnimationEnded(Animator anim, string animationName)
+        {
+            return anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName(animationName);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Mazlo.Components
         [HideInInspector] public float inputY;
 
         [HideInInspector] public float movementMultiplier;
+        [HideInInspector] public bool movementLocked;
 
         public void Start()
         {
