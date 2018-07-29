@@ -54,12 +54,14 @@ namespace Mazlo.Systems
 
                 if (EntityManager.HasComponent<PickupComponent>(curr))
                 {
-                    bool pickedUp = Input.GetKeyDown(KeyCode.E);
-
-                    EntityManager.GetComponentObject<PickupComponent>(curr).pickupTriggered = pickedUp;
-                    if (pickedUp && EntityManager.HasComponent<VelocityComponent>(curr))
+                    if (Input.GetKeyDown(KeyCode.E))
                     {
-                        EntityManager.GetComponentObject<VelocityComponent>(curr).movementLocked = true;                     
+                        EntityManager.GetComponentObject<PickupComponent>(curr).isPickingUp = true;
+                        if (EntityManager.HasComponent<VelocityComponent>(curr))
+                        {
+                            EntityManager.GetComponentObject<VelocityComponent>(curr).movementLocked = true;
+
+                        }
                     }
                 }
             }

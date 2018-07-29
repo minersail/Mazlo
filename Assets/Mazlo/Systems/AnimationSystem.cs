@@ -51,7 +51,14 @@ namespace Mazlo.Systems
 
                 if (EntityManager.HasComponent<PickupComponent>(curr))
                 {
-                    if (EntityManager.GetComponentObject<PickupComponent>(curr).pickupTriggered)
+                    PickupComponent pickup = EntityManager.GetComponentObject<PickupComponent>(curr);
+
+                    if (AnimationEnded(anim, "Pickup"))
+                    {
+                        pickup.isPickingUp = false;
+                    }
+
+                    if (pickup.isPickingUp)
                         anim.SetTrigger("Pickup");
                     else
                         anim.ResetTrigger("Pickup");

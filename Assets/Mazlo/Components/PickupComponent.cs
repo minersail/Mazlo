@@ -6,6 +6,6 @@ namespace Mazlo.Components
 {
     public class PickupComponent : MonoBehaviour
     {
-        [HideInInspector] public bool pickupTriggered;
+        [HideInInspector] public bool isPickingUp;
     }
 }

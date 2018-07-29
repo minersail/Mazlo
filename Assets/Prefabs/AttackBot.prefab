@@ -2179,6 +2179,7 @@ MonoBehaviour:
   inputX: 0
   inputY: 0
   movementMultiplier: 0
+  movementLocked: 0
 --- !u!114 &114940549641311444
 MonoBehaviour:
   m_ObjectHideFlags: 1

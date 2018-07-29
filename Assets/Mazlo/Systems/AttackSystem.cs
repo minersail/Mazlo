@@ -22,7 +22,8 @@ namespace Mazlo.Systems
         {
             for (int i = 0; i < AttackEntities.Length; i++)
             {
-                Debug.Log("Attacking");
+                if (AttackEntities.AttackComponents[i].attackTriggered)
+                    Debug.Log("Attacking");
             }
         }
     }

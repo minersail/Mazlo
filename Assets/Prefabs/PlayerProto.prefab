@@ -230,6 +230,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4512931071988712}
+  - component: {fileID: 54077378310787698}
+  - component: {fileID: 135327217164365528}
+  - component: {fileID: 114793143828999814}
   m_Layer: 0
   m_Name: mixamorig:RightHand
   m_TagString: Untagged
@@ -346,6 +349,7 @@ GameObject:
   - component: {fileID: 114138452414356516}
   - component: {fileID: 114394223109198694}
   - component: {fileID: 114220218681121472}
+  - component: {fileID: 114540116061253350}
   m_Layer: 0
   m_Name: PlayerProto
   m_TagString: Untagged
@@ -2219,6 +2223,21 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!54 &54077378310787698
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1144522685382494}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!81 &81355710942575842
 AudioListener:
   m_ObjectHideFlags: 1
@@ -2274,7 +2293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276875e5a1a4e2a4693d6727bae2b49b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupTriggered: 0
+  isPickingUp: 0
 --- !u!114 &114382331773491674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2304,6 +2323,18 @@ MonoBehaviour:
   regenRate: 5
   energy: 0
   regenEnabled: 0
+--- !u!114 &114540116061253350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1222535806623158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e922e74e0e63b664584843e6f272b5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggers: []
 --- !u!114 &114678308522531916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2315,6 +2346,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114793143828999814
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1144522685382494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1723cbc275d28614ea26e10409d2d9cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trackedTC: {fileID: 114540116061253350}
 --- !u!114 &114866900373594414
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2341,6 +2384,7 @@ MonoBehaviour:
   inputX: 0
   inputY: 0
   movementMultiplier: 0
+  movementLocked: 0
 --- !u!124 &124034490434789436
 Behaviour:
   m_ObjectHideFlags: 1
@@ -2355,6 +2399,18 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858886305886200}
   m_Enabled: 1
+--- !u!135 &135327217164365528
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1144522685382494}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.2
+  m_Center: {x: 0.1, y: 0, z: 0}
 --- !u!137 &137018821893491346
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
