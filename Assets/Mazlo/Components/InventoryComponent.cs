@@ -10,6 +10,7 @@ namespace Mazlo.Components
         public readonly int INVENTORY_SIZE = 18;
 
         [HideInInspector] public Dictionary<int, ItemComponent> inventory = new Dictionary<int, ItemComponent>();
+        [HideInInspector] public bool dirty;
 
         public InventoryComponent()
         {

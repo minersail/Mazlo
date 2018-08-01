@@ -60,8 +60,18 @@ namespace Mazlo.Systems
                         if (EntityManager.HasComponent<VelocityComponent>(curr))
                         {
                             EntityManager.GetComponentObject<VelocityComponent>(curr).movementLocked = true;
-
                         }
+                    }
+                }
+
+                if (EntityManager.HasComponent<InventoryComponent>(curr))
+                {
+                    InventoryComponent inv = EntityManager.GetComponentObject<InventoryComponent>(curr);
+
+                    if (Input.GetKeyDown(KeyCode.C))
+                    {
+                        inv.inventory[1] = null;
+                        inv.dirty = true;
                     }
                 }
             }

@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace Mazlo.Components
 {
-    public class ItemComponent : MonoBehaviour
+    public class EquipComponent : MonoBehaviour
     {
-        public Sprite itemSprite;
-        public bool equippable;
+        public List<Transform> equipSlots = new List<Transform>();
     }
 }

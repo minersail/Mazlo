@@ -6,6 +6,8 @@ using Mazlo.Components;
 
 namespace Mazlo.Systems
 {
+    [UpdateBefore(typeof(InventorySystem))]
+    [UpdateBefore(typeof(EquipSystem))]
     public class PickupSystem : ComponentSystem
     {
         private struct PickupData
@@ -36,24 +38,45 @@ namespace Mazlo.Systems
                         // Can only pick up items
                         if (data.entity != Entity.Null && EntityManager.HasComponent<ItemComponent>(data.entity))
                         {
-                            inventory.inventory[1] = EntityManager.GetComponentObject<ItemComponent>(data.entity);
-                            PickUpEntity(data.entity);
+                            ItemComponent item = EntityManager.GetComponentObject<ItemComponent>(data.entity);
+
+                            if (item.equippable)
+                            {
+                                inventory.inventory[1] = item;
+                                // TODO: Next equippable slot
+                            }
+                            else
+                            {
+                                inventory.inventory[2] = item;
+                                // TODO: Next non-equippable slot
+                            }
+
+                            PickUpEntity(data.entity, item.equippable);
+                            inventory.dirty = true;
                         }
                     }
                 }
             }
         }
 
-        private void PickUpEntity(Entity en)
+        private void PickUpEntity(Entity en, bool equippable)
         {
-            if (EntityManager.HasComponent<MeshRenderer>(en))
+            if (!equippable)
             {
-                EntityManager.GetComponentObject<MeshRenderer>(en).enabled = false;
+                if (EntityManager.HasComponent<MeshRenderer>(en))
+                {
+                    EntityManager.GetComponentObject<MeshRenderer>(en).enabled = false;
+                }
+
+                if (EntityManager.GetComponentObject<Transform>(en).GetComponent<Collider>() != null)
+                {
+                    EntityManager.GetComponentObject<Transform>(en).GetComponent<Collider>().enabled = false;
+                }
             }
 
-            if (EntityManager.GetComponentObject<Transform>(en).GetComponent<Collider>() != null)
+            if (EntityManager.HasComponent<Rigidbody>(en))
             {
-                EntityManager.GetComponentObject<Transform>(en).GetComponent<Collider>().enabled = false;
+                EntityManager.GetComponentObject<Rigidbody>(en).useGravity = false;
             }
         }
     }
