@@ -12,6 +12,7 @@ namespace Mazlo.Systems
         {
             public ComponentArray<PickupComponent> PickupComponents;
             public ComponentArray<TriggerComponent> TriggerComponents;
+            public ComponentArray<InventoryComponent> InventoryComponents;
             public EntityArray Entities;
             public int Length;
         }
@@ -25,17 +26,34 @@ namespace Mazlo.Systems
             {
                 PickupComponent pickup = PickupEntities.PickupComponents[i];
                 TriggerComponent trigger = PickupEntities.TriggerComponents[i];
+                InventoryComponent inventory = PickupEntities.InventoryComponents[i];
+                Entity curr = PickupEntities.Entities[i];
 
                 if (pickup.isPickingUp)
                 {
                     foreach (TriggerComponent.TriggerData data in trigger.triggers)
                     {
-                        if (data.entity != Entity.Null)
+                        // Can only pick up items
+                        if (data.entity != Entity.Null && EntityManager.HasComponent<ItemComponent>(data.entity))
                         {
-                            data.trigger.gameObject.SetActive(false);
+                            inventory.inventory[1] = EntityManager.GetComponentObject<ItemComponent>(data.entity);
+                            PickUpEntity(data.entity);
                         }
                     }
                 }
+            }
+        }
+
+        private void PickUpEntity(Entity en)
+        {
+            if (EntityManager.HasComponent<MeshRenderer>(en))
+            {
+                EntityManager.GetComponentObject<MeshRenderer>(en).enabled = false;
+            }
+
+            if (EntityManager.GetComponentObject<Transform>(en).GetComponent<Collider>() != null)
+            {
+                EntityManager.GetComponentObject<Transform>(en).GetComponent<Collider>().enabled = false;
             }
         }
     }
