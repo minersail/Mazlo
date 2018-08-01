@@ -33,7 +33,7 @@ namespace Mazlo.Systems
                 // Indexing for inventory should correspond with equipment slots
                 for (int j = 0; j < length; j++)
                 {
-                    if (inventory.inventory[j] != null)
+                    if (inventory.inventory[j] != Entity.Null)
                     {
                         // Drop any previously equipped items
                         for (int x = 0; x < equipment.equipSlots[j].childCount; x++)
@@ -41,8 +41,8 @@ namespace Mazlo.Systems
                             equipment.equipSlots[j].GetChild(x).SetParent(null);
                         }
 
-                        inventory.inventory[j].transform.SetParent(equipment.equipSlots[j]);
-                        inventory.inventory[j].transform.localPosition = Vector3.zero;
+                        EntityManager.GetComponentObject<Transform>(inventory.inventory[j]).SetParent(equipment.equipSlots[j]);
+                        EntityManager.GetComponentObject<Transform>(inventory.inventory[j]).localPosition = Vector3.zero;
                     }
                     else // If item slot is null item is dropped
                     {

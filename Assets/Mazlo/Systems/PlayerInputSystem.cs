@@ -10,6 +10,7 @@ namespace Mazlo.Systems
     [UpdateBefore(typeof(HeadingSystem))]
     [UpdateBefore(typeof(AttackSystem))]
     [UpdateBefore(typeof(AnimationSystem))]
+    [UpdateBefore(typeof(PickupSystem))]
     public class PlayerInputSystem : ComponentSystem
     {
         private struct PlayerData
@@ -70,7 +71,7 @@ namespace Mazlo.Systems
 
                     if (Input.GetKeyDown(KeyCode.C))
                     {
-                        inv.inventory[1] = null;
+                        inv.commands.Add(new InventorySystem.DropCommand(1));
                         inv.dirty = true;
                     }
                 }

@@ -40,43 +40,11 @@ namespace Mazlo.Systems
                         {
                             ItemComponent item = EntityManager.GetComponentObject<ItemComponent>(data.entity);
 
-                            if (item.equippable)
-                            {
-                                inventory.inventory[1] = item;
-                                // TODO: Next equippable slot
-                            }
-                            else
-                            {
-                                inventory.inventory[2] = item;
-                                // TODO: Next non-equippable slot
-                            }
-
-                            PickUpEntity(data.entity, item.equippable);
+                            inventory.commands.Add(new InventorySystem.AddCommand(data.entity));
                             inventory.dirty = true;
                         }
                     }
                 }
-            }
-        }
-
-        private void PickUpEntity(Entity en, bool equippable)
-        {
-            if (!equippable)
-            {
-                if (EntityManager.HasComponent<MeshRenderer>(en))
-                {
-                    EntityManager.GetComponentObject<MeshRenderer>(en).enabled = false;
-                }
-
-                if (EntityManager.GetComponentObject<Transform>(en).GetComponent<Collider>() != null)
-                {
-                    EntityManager.GetComponentObject<Transform>(en).GetComponent<Collider>().enabled = false;
-                }
-            }
-
-            if (EntityManager.HasComponent<Rigidbody>(en))
-            {
-                EntityManager.GetComponentObject<Rigidbody>(en).useGravity = false;
             }
         }
     }

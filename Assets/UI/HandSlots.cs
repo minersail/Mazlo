@@ -15,22 +15,24 @@ public class HandSlots : MonoBehaviour
 	
 	void Update ()
     {
-        if (IC.inventory[0] == null)
+        if (IC.inventory[0] == Entity.Null)
         {
             leftItem.sprite = empty;
         }
         else
         {
-            leftItem.sprite = IC.inventory[0].itemSprite;
+            leftItem.sprite = 
+                World.Active.GetExistingManager<EntityManager>().GetComponentObject<ItemComponent>(IC.inventory[0]).itemSprite;
         }
 
-        if (IC.inventory[1] == null)
+        if (IC.inventory[1] == Entity.Null)
         {
             rightItem.sprite = empty;
         }
         else
         {
-            rightItem.sprite = IC.inventory[1].itemSprite;
+            rightItem.sprite =
+                World.Active.GetExistingManager<EntityManager>().GetComponentObject<ItemComponent>(IC.inventory[1]).itemSprite;
         }
     }
 }
