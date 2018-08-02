@@ -52,8 +52,6 @@ namespace Mazlo.Systems
                         }
                     }
                 }
-
-                inventory.dirty = false;
             }
         }
     }

@@ -7,9 +7,10 @@ using Mazlo.Components;
 namespace Mazlo.Systems
 {
     [UpdateBefore(typeof(InventorySystem))]
-    [UpdateBefore(typeof(EquipSystem))]
     public class PickupSystem : ComponentSystem
     {
+        public const float PICKUP_COOLDOWN = 1.0f;
+
         private struct PickupData
         {
             public ComponentArray<PickupComponent> PickupComponents;
@@ -36,12 +37,12 @@ namespace Mazlo.Systems
                     foreach (TriggerComponent.TriggerData data in trigger.triggers)
                     {
                         // Can only pick up items
-                        if (data.entity != Entity.Null && EntityManager.HasComponent<ItemComponent>(data.entity))
+                        if (data.entity != Entity.Null && EntityManager.HasComponent<ItemComponent>(data.entity) && 
+                            EntityManager.GetComponentObject<ItemComponent>(data.entity).pickupCooldown > PICKUP_COOLDOWN) // Make sure items have a small wait time before being picked up again
                         {
-                            ItemComponent item = EntityManager.GetComponentObject<ItemComponent>(data.entity);
-
                             inventory.commands.Add(new InventorySystem.AddCommand(data.entity));
-                            inventory.dirty = true;
+                            trigger.triggers.Remove(data);
+                            break;
                         }
                     }
                 }

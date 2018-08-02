@@ -8,5 +8,7 @@ namespace Mazlo.Components
     {
         public Sprite itemSprite;
         public bool equippable;
+
+        [HideInInspector] public float pickupCooldown;
     }
 }

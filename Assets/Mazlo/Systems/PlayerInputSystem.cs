@@ -72,7 +72,6 @@ namespace Mazlo.Systems
                     if (Input.GetKeyDown(KeyCode.C))
                     {
                         inv.commands.Add(new InventorySystem.DropCommand(1));
-                        inv.dirty = true;
                     }
                 }
             }
